@@ -3,6 +3,7 @@ const cors = require("cors");
 const { DB_URL } = require("./config/db.config"); // Import dbConfig
 const mongoose = require('mongoose');
 const app = express();
+const genreRouter = require('./routes/genre.routes');
 
 app.use(cors());
 app.use(express.json());
@@ -36,6 +37,10 @@ app.get("/genres",(req,res)=>{
 app.get("/artists",(req,res)=>{
     res.send("All Artists Data in JSON format from Mongo DB");
 });
+
+
+//Routes
+app.use('/api', genreRouter);
 
 // Set port and listen for requests
 const PORT = process.env.PORT || 8085;
