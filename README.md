@@ -10,31 +10,31 @@ This project aims to develop the backend of a real-world application using Node.
 - **Book Tickets:** Book tickets for selected movies and shows.
 
 <!-- TREEVIEW START -->
-moviebooking/
-├── config/
-│   └── db.config.js
-├── controllers/
-│   ├── artist.controller.js
-│   ├── genre.controller.js
-│   ├── movie.controller.js
-│   └── user.controller.js
-├── models/
-│   ├── artist.model.js
-│   ├── genre.model.js
-│   ├── index.js
-│   ├── movie.model.js
-│   └── user.model.js
-├── routes/
-│   ├── artist.routes.js
-│   ├── genre.routes.js
-│   ├── movie.routes.js
-│   └── user.routes.js
-├── package-lock.json
-├── package.json
-├── README.md
-└── server.js
-
-<!-- TREEVIEW END -->
+```bash
+📦 moviebooking
+ ┣ 📂config
+ ┃ ┗ 📜db.config.js
+ ┣ 📂controllers
+ ┃ ┣ 📜artist.controller.js
+ ┃ ┣ 📜genre.controller.js
+ ┃ ┣ 📜movie.controller.js
+ ┃ ┗ 📜user.controller.js
+ ┣ 📂models
+ ┃ ┣ 📜artist.model.js
+ ┃ ┣ 📜genre.model.js
+ ┃ ┣ 📜index.js
+ ┃ ┣ 📜movie.model.js
+ ┃ ┗ 📜user.model.js
+ ┣ 📂routes
+ ┃ ┣ 📜artist.routes.js
+ ┃ ┣ 📜genre.routes.js
+ ┃ ┣ 📜movie.routes.js
+ ┃ ┗ 📜user.routes.js
+ ┣ 📜package-lock.json
+ ┣ 📜package.json
+ ┣ 📜README.md
+ ┗ 📜server.js
+ 
 ## API Routes
 
 ### Movie Data-Related API Routes
