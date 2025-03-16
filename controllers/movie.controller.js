@@ -87,8 +87,22 @@ const findOne = async (req,res)=>{
   }
 };
 
+//findShows() - to fetch details of shows of a specific movie given its id.
 const findShows = async(req,res) =>{
-
+   
+    const {movieid} = req.params;
+    
+    console.log(movieid);
+    try{
+        const movie = await Movie.findOne({movieid:movieid});
+        if(!movie){
+            return res.status(404).json({message:"Movie not found"});
+        }
+        console.log(movie);
+        res.status(200).send(movie.shows);
+    }catch(error){
+        res.status(500).json({message:"Internal server error",error:error.message});
+    }
 };
 
 module.exports = { findAllMovies , findOne ,findShows};
