@@ -8,5 +8,7 @@ router.post('/auth/signup', userController.signUp);
 router.post('/auth/login', userController.login);
 // POST: Logout the user
 router.post('/auth/logout', userController.logout);
+//GET: get the coupon
+router.get('/auth/coupons',userController.getCouponCode);
 
 module.exports = router;
