@@ -131,5 +131,33 @@ const login = async (req,res)=>{
    }
 };
 
+const logout = async(req,res)=>{
+    try {
+        // Extract access token and user UUID from headers
+        const accessToken = req.headers.authorization?.split(" ")[1]; 
+        const uuid = req.headers["uuid"]; 
+        // Check if access token and UUID are provided
+        if (!accessToken || !uuid) {
+          return res.status(400).json({ message: "Missing access token or UUID" });
+        }
+    
+        // Find the user with the given UUID
+        const user = await User.findOne({ uuid });
+        // Check if user exists
+        if (!user) {
+          return res.status(404).json({ message: "User not found" });
+        }
+        // Clear the access token in DB (if stored)
+        user.accesstoken = "";
+        user.isLoggedIn = false;
+    
+        await user.save();
+    
+        res.status(200).json({ message: "Logout successful" });
+      } catch (error) {
+        console.error("Logout error:", error);
+        res.status(500).json({ message: "Internal server error" });
+      }
+};
 
-module.exports = { signUp , login};
+module.exports = { signUp , login , logout };
