@@ -10,5 +10,7 @@ router.post('/auth/login', userController.login);
 router.post('/auth/logout', userController.logout);
 //GET: get the coupon
 router.get('/auth/coupons',userController.getCouponCode);
+//POST: to book the show
+router.post('/auth/bookings',userController.bookShow);
 
 module.exports = router;
