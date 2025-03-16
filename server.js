@@ -6,6 +6,8 @@ const app = express();
 const genreRouter = require('./routes/genre.routes');
 const artistRouter = require('./routes/artist.routes');
 const movieRouter = require('./routes/movie.routes');
+const userRouter = require('./routes/user.routes');
+
 
 app.use(cors());
 app.use(express.json());
@@ -45,6 +47,7 @@ app.get("/artists",(req,res)=>{
 app.use('/api', genreRouter);
 app.use('/api', artistRouter);
 app.use('/api', movieRouter);
+app.use('/api', userRouter);
 
 // Set port and listen for requests
 const PORT = process.env.PORT || 8085;
