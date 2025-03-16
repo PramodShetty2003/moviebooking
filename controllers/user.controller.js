@@ -124,8 +124,16 @@ const login = async (req,res)=>{
     user.isLoggedIn = true;
     await user.save();
 
-    // Return success response with access token
-    res.status(200).json({ id: user.uuid, accessToken , message: "Login successful" });
+     // Set access token in header for client to pick up
+     res.setHeader("access-token", accessToken);
+
+     // Return success response with access token
+     res.status(200).json({
+       id: user.uuid,
+       "access-token": accessToken,
+       message: "Login successful",
+     });
+      
    }catch(error){
     res.status(500).json({ message: "Internal server error", error: error.message });
    }
@@ -160,4 +168,66 @@ const logout = async(req,res)=>{
       }
 };
 
-module.exports = { signUp , login , logout };
+const getCouponCode = async (req, res) => {
+    try {
+        console.log("Headers received:", req.headers); // Debugging
+
+        // Extract access token
+        const authHeader = req.headers.authorization;
+        if (!authHeader) {
+            return res.status(400).json({ message: "Missing Authorization header" });
+        }
+
+        const accessToken = authHeader.split(" ")[1];
+
+        if (!accessToken) {
+            return res.status(400).json({ message: "Invalid Authorization format" });
+        }
+
+        console.log("Extracted accessToken:", accessToken); // Debugging
+
+        // Find the user by access token
+        const user = await User.findOne({ accesstoken: accessToken });
+  
+      // Check if user exists
+      if (!user) {
+        return res.status(404).json({ message: "User not found" });
+      }
+  
+      // Check if the user has any coupons
+      if (!user.coupens || user.coupens.length === 0) {
+        return res.status(404).json({ message: "No coupons available" });
+      }
+  
+      // Get coupon code from query params
+      const { code } = req.query;
+      if (!code) {
+        return res.status(400).json({ error: "Coupon code is required" });
+      }
+  
+      const couponCode = parseInt(code, 10);
+  
+      // Check if the user has this specific coupon
+      const userCoupon = user.coupens.find(c => c.id === couponCode);
+      if (!userCoupon) {
+        return res.status(400).json({ error: "Coupon not available for user" });
+      }
+  
+      // Remove the used coupon from the user's coupons array
+      user.coupens = user.coupens.filter(c => c.id !== couponCode);
+      await user.save();
+  
+      // Return the discount value
+      return res.status(200).json({
+        discountValue: userCoupon.discountValue,
+        message: "Coupon applied successfully",
+      });
+  
+    } catch (error) {
+      console.error("Error applying coupon:", error);
+      return res.status(500).json({ message: "Internal server error", error: error.message });
+    }
+  };
+  
+
+module.exports = { signUp , login , logout , getCouponCode};
