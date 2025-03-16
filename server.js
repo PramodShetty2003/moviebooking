@@ -4,6 +4,8 @@ const { DB_URL } = require("./config/db.config"); // Import dbConfig
 const mongoose = require('mongoose');
 const app = express();
 const genreRouter = require('./routes/genre.routes');
+const artistRouter = require('./routes/artist.routes');
+const movieRouter = require('./routes/movie.routes');
 
 app.use(cors());
 app.use(express.json());
@@ -41,6 +43,8 @@ app.get("/artists",(req,res)=>{
 
 //Routes
 app.use('/api', genreRouter);
+app.use('/api', artistRouter);
+app.use('/api', movieRouter);
 
 // Set port and listen for requests
 const PORT = process.env.PORT || 8085;
