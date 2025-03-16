@@ -11,18 +11,17 @@ const formatDate = (date) => {
 
 const findAllMovies = async (req,res) =>{
    const { status, title, genres, artists, start_date, end_date } = req.query;
-   console.log(req.query);
    try{
     let movies = {};
     // To find all movies with published as true
     if ( status === "PUBLISHED" ) movies.published = true;
-    console.log(movies);
+
     // To find all movies with released as true
     if ( status === "RELEASED") movies.released = true;
-    console.log(movies);
+
     // To find all movies with title
     if (title) movies.title = { $regex: title, $options: 'i' };
-    console.log(movies);
+
     // To find all movies with genres
     if (genres){
         const genreArray = genres.split(',');
@@ -32,7 +31,7 @@ const findAllMovies = async (req,res) =>{
     if (artists) {
 
         const artistNames = artists.split(',').map(artists => artists.trim());
-        console.log(artistNames);
+
 
         const SearchArtists = artistNames.map(artistName => {
             const [firstName, lastName] = artistName.split(' ');
@@ -58,11 +57,11 @@ const findAllMovies = async (req,res) =>{
         movies.release_date.$lte = formattedEndDate;
       }
   
-      console.log("Movies query:", movies);
+
 
     // To find all movies with all the above conditions
     const filtered_movies = await Movie.find(movies);
-    console.log(filtered_movies); 
+
     if (!filtered_movies || filtered_movies.length === 0) {
         return res.status(404).json({ message: "No movies found." });
     }
@@ -90,7 +89,7 @@ const findOne = async (req,res)=>{
 //findShows() - to fetch details of shows of a specific movie given its id.
 const findShows = async (req, res) => {
   const { movieid } = req.params;
-  console.log(movieid);
+
 
   try {
       const movie = await Movie.findOne({ movieid: movieid });
