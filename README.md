@@ -1,4 +1,3 @@
-cat << 'EOF' > README.md
 # Movie Booking Application Backend
 
 ## Project Overview
@@ -10,6 +9,9 @@ This project aims to develop the backend of a real-world application using Node.
 - **View Details:** Check movie details including genre, artists, and trailers.
 - **Book Tickets:** Book tickets for selected movies and shows.
 
+<!-- TREEVIEW START -->
+treeview.sh
+<!-- TREEVIEW END -->
 ## API Routes
 
 ### Movie Data-Related API Routes
