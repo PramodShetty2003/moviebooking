@@ -2,6 +2,12 @@ const { User } = require('../models');
 const {v4: uuidv4} = require('uuid');
 const TokenGenerator = require("uuid-token-generator");
 
+// Function to generate a unique reference number
+const generateReferenceNumber = () => {
+     // Random 5-digit number
+    return Math.floor(10000 + Math.random() * 90000);
+};
+
 const signUp = async (req,res)=>{
     const {  email_address ,first_name, last_name ,mobile_number ,password } = req.body;
     console.log(req.body);
@@ -228,6 +234,43 @@ const getCouponCode = async (req, res) => {
       return res.status(500).json({ message: "Internal server error", error: error.message });
     }
   };
+ // To book the show 
+ const bookShow = async(req,res)=>{
+    const { customerUuid, bookingRequest } = req.body;
+    console.log(customerUuid , bookingRequest);
+    try{
+    if (!customerUuid || !bookingRequest) {
+        return res.status(400).json({ error: "Invalid request data" });
+      }
   
+      // Find the user by uuid
+      const user = await User.findOne({ uuid: customerUuid });
+      if (!user) {
+        return res.status(404).json({ error: "User not found" });
+      }
+    // Generate unique reference number
+    const referenceNumber = generateReferenceNumber();
 
-module.exports = { signUp , login , logout , getCouponCode};
+    // Create new booking object
+    const newBooking = {
+      reference_number: referenceNumber,
+      coupon_code: bookingRequest.coupon_code,
+      show_id: bookingRequest.show_id,
+      tickets: bookingRequest.tickets.map(Number),
+    };
+    // Add new booking to user's bookingRequests array
+    user.bookingRequests.push(newBooking);
+    // Save user to database
+    await user.save();
+    // Return success response
+    res.status(201).json({
+        message: "Booking Confirmed",
+        reference_number: referenceNumber,
+        updatedBookings: user.bookingRequests,
+      });
+    }catch(error){
+        res.status(500).json({ message: "Internal server error", error: error.message });
+    }
+ };
+
+module.exports = { signUp , login , logout , getCouponCode ,bookShow};
