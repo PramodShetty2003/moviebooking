@@ -10,7 +10,7 @@ This project aims to develop the backend of a real-world application using Node.
 - **Book Tickets:** Book tickets for selected movies and shows.
 
 <!-- TREEVIEW START -->
-```bash
+
 📦 moviebooking
  ┣ 📂config
  ┃ ┗ 📜db.config.js
@@ -34,7 +34,7 @@ This project aims to develop the backend of a real-world application using Node.
  ┣ 📜package.json
  ┣ 📜README.md
  ┗ 📜server.js
-''' 
+
 ## API Routes
 
 ### Movie Data-Related API Routes
