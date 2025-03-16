@@ -59,7 +59,7 @@ const findAllMovies = async (req,res) =>{
       }
   
       console.log("Movies query:", movies);
-      
+
     // To find all movies with all the above conditions
     const filtered_movies = await Movie.find(movies);
     console.log(filtered_movies); 
@@ -72,4 +72,23 @@ const findAllMovies = async (req,res) =>{
    }
 };
 
-module.exports = { findAllMovies };
+//findOne() - to fetch all details of a movie given its id.
+const findOne = async (req,res)=>{
+  const movieid = parseInt(req.params.id);
+  try{
+     const movie = await Movie.findOne({movieid:movieid});
+     if(!movie){
+        return res.status(404).json({message:"Movie not found"});
+     }
+     res.status(200).send(movie); 
+
+  }catch(error){
+    res.status(500).json({message:"Internal server error",error:error.message});
+  }
+};
+
+const findShows = async(req,res) =>{
+
+};
+
+module.exports = { findAllMovies , findOne ,findShows};
